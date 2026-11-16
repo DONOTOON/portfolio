@@ -91,6 +91,8 @@
     $("#career").innerHTML = CAREER.map((c) => `<div class="item">
       <p class="when">${c.period}<br>${c.dur}</p>
       <div><p class="what">${c.co}<small>${c.role}</small></p><ul>${c.items.map((t) => `<li>${t}</li>`).join("")}</ul></div></div>`).join("");
+    $("#career").insertAdjacentHTML("beforeend", `<div class="etc"><p class="etc-h">ETC</p>${CAREER_ETC.map(([w, c, d]) =>
+      `<div class="etc-row"><span class="when">${w}</span><span><span class="co">${c}</span><span class="d">${d}</span></span></div>`).join("")}</div>`);
     $("#edu").innerHTML = EDUCATION.map(([a, b]) => `<div class="item"><p class="when">${b}</p><p class="what">${a}</p></div>`).join("");
     $("#courses").innerHTML = COURSES.map(([a, b, c]) => `<div class="item"><p class="when">${b}</p><div><p class="what">${a}</p><p>${c}</p></div></div>`).join("");
     $("#skills").innerHTML = SKILLS.map(([a, b]) => `<div class="item"><p class="what">${a}</p><p>${b}</p></div>`).join("");
