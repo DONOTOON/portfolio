@@ -3,7 +3,9 @@
   const params = new URLSearchParams(location.search);
   const trackKey = TRACKS[params.get("track")] ? params.get("track") : "all";
   const track = TRACKS[trackKey];
-  const order = track.order.filter((id) => PROJECTS[id]);
+  // 최신순 (start 기준)
+  const order = Object.keys(PROJECTS).sort((a, b) => PROJECTS[b].start.localeCompare(PROJECTS[a].start));
+  const catNames = (p) => p.cats.map((c) => CATEGORIES[c]).join(" · ");
   const withTrack = (href) => {
     if (trackKey === "all") return href;
     const [path, hash] = href.split("#");
@@ -31,46 +33,60 @@
     });
   }
 
+  // floating top / bottom buttons
+  const fab = document.createElement("div");
+  fab.className = "fab";
+  fab.innerHTML = `<button type="button" data-to="top" aria-label="맨 위로">↑</button><button type="button" data-to="bottom" aria-label="맨 아래로">↓</button>`;
+  document.body.appendChild(fab);
+  fab.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    window.scrollTo({ top: b.dataset.to === "top" ? 0 : document.documentElement.scrollHeight });
+  });
+
   if ($("#grid")) renderHome();
   if ($("#project")) renderProject();
 
   /* ---------------- HOME ---------------- */
   function renderHome() {
-    $("#role").textContent = track.role;
+    if (track.role) $("#role").textContent = track.role; else $("#role").remove();
     $("#tagline").innerHTML = PROFILE.tagline.replace("하나의 경험", "<em>하나의 경험</em>");
     if (track.statement) { $("#statement").innerHTML = track.statement; $("#statement").hidden = false; }
     $("#langs").innerHTML = PROFILE.languages
       .map((l, i) => `<div><p class="n">${pad(i + 1)}</p><p class="k">${l.k}</p><p class="v">${l.v}</p></div>`).join("");
-    $("#intro").textContent = PROFILE.intro;
+    $("#intro").innerHTML = PROFILE.intro.join("<br>");
 
     $("#highlights").innerHTML = HIGHLIGHTS
-      .map((h) => `<a href="${withTrack("project.html?id=" + h.id)}"><p class="num">${h.n}</p><p class="lbl">${h.l}</p></a>`).join("");
+      .map((h) => `<a href="${h.href || withTrack("project.html?id=" + h.id)}"><p class="num">${h.n}</p><p class="lbl">${h.l}</p></a>`).join("");
 
     const cats = ["all", ...Object.keys(CATEGORIES)];
     $("#filters").innerHTML = cats
-      .map((c) => `<button class="chip${c === "all" ? " on" : ""}" data-cat="${c}">${c === "all" ? "전체" : CATEGORIES[c]}</button>`).join("");
+      .map((c) => `<button class="chip" data-cat="${c}">${c === "all" ? "전체" : CATEGORIES[c]}</button>`).join("");
 
-    $("#grid").innerHTML = order.map((id, i) => {
+    $("#grid").innerHTML = order.map((id) => {
       const p = PROJECTS[id];
-      return `<a class="card reveal" data-cat="${p.cat}" href="${withTrack("project.html?id=" + id)}">
+      return `<a class="card reveal" data-cats="${p.cats.join(" ")}" href="${withTrack("project.html?id=" + id)}">
         <div class="thumb"><img src="assets/covers/${id}.jpg" alt="${p.title}" loading="lazy"></div>
-        <div class="row"><span class="no">${pad(i + 1)}</span><h3 class="ttl">${p.title}</h3><span class="yr">${p.year}</span></div>
+        <div class="row"><span class="no"></span><h3 class="ttl">${p.title}</h3><span class="yr">${p.year}</span></div>
         <p class="sub">${plain(p.headline)}</p>
-        <p class="cat">${CATEGORIES[p.cat]} · ${p.label}</p>
+        <p class="cat">${catNames(p)} · ${p.label}</p>
       </a>`;
     }).join("");
-    $("#count").textContent = order.length;
 
-    $("#filters").addEventListener("click", (e) => {
-      const b = e.target.closest(".chip"); if (!b) return;
-      document.querySelectorAll(".chip").forEach((c) => c.classList.toggle("on", c === b));
+    const applyFilter = (cat) => {
+      document.querySelectorAll(".chip").forEach((c) => c.classList.toggle("on", c.dataset.cat === cat));
       let n = 0;
       document.querySelectorAll(".card").forEach((card) => {
-        const show = b.dataset.cat === "all" || card.dataset.cat === b.dataset.cat;
+        const show = cat === "all" || card.dataset.cats.split(" ").includes(cat);
         card.classList.toggle("hide", !show);
-        if (show) { card.querySelector(".no").textContent = pad(++n); card.classList.add("in"); }
+        if (show) card.querySelector(".no").textContent = pad(++n);
       });
       $("#count").textContent = n;
+    };
+    applyFilter(track.filter || "all");
+    $("#filters").addEventListener("click", (e) => {
+      const b = e.target.closest(".chip"); if (!b) return;
+      applyFilter(b.dataset.cat);
+      document.querySelectorAll(".card:not(.hide)").forEach((c) => c.classList.add("in"));
     });
 
     $("#career").innerHTML = CAREER.map((c) => `<div class="item">
@@ -104,7 +120,7 @@
     $("#project").innerHTML = `
       <section class="p-hero"><div class="wrap">
         <a class="back" href="${withTrack("index.html#work")}">← 전체 프로젝트</a>
-        <p class="eyebrow">${pad(idx + 1)} — ${p.label}</p>
+        <p class="eyebrow">${catNames(p)} — ${p.label}</p>
         <h1 class="p-title">${p.title}</h1>
         <p class="p-headline">${accent(p.headline)}</p>
         <div class="p-body">

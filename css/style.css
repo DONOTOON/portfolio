@@ -68,7 +68,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .langs .n { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: .1em; }
 .langs .k { font-size: clamp(18px, 2vw, 26px); font-weight: 800; letter-spacing: -.02em; margin-top: 6px; }
 .langs .v { color: var(--muted); font-size: 14px; }
-.hero-intro { max-width: 720px; margin-top: 32px; color: #3a3a3e; font-size: 16px; }
+.hero-intro { margin-top: 32px; color: #3a3a3e; font-size: 16px; }
 
 /* ---------- highlights ---------- */
 .highlights { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
@@ -129,13 +129,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .item p { color: #3a3a3e; font-size: 15px; margin-top: 4px; }
 
 /* ---------- contact ---------- */
-.contact { background: var(--accent); color: var(--accent-ink); padding: clamp(72px, 10vw, 140px) 0 40px; }
+.contact { background: var(--accent); color: var(--accent-ink); padding: clamp(36px, 4vw, 52px) 0; }
+.contact-in { padding-right: 64px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px 32px; flex-wrap: wrap; }
 .contact .eyebrow { color: rgba(255,255,255,.7); }
-.contact .big { display: inline-block; margin-top: 20px; font-size: clamp(30px, 7.4vw, 112px); font-weight: 800; letter-spacing: -.045em; line-height: 1; word-break: break-all; border-bottom: 3px solid transparent; transition: border-color .2s; }
+.contact .big { display: inline-block; margin-top: 8px; font-size: clamp(22px, 3vw, 40px); font-weight: 800; letter-spacing: -.03em; line-height: 1.15; word-break: break-all; border-bottom: 2px solid transparent; transition: border-color .2s; }
 .contact .big:hover { border-color: var(--accent-ink); }
-.contact .copy { margin-top: 18px; font-size: 14px; padding: 8px 16px; border: 1px solid rgba(255,255,255,.6); border-radius: 999px; }
+.contact-side { display: flex; align-items: center; gap: 20px; font-size: 13px; color: rgba(255,255,255,.75); }
+.contact .copy { font-size: 14px; padding: 8px 16px; border: 1px solid rgba(255,255,255,.6); border-radius: 999px; color: #fff; }
 .contact .copy:hover { background: #fff; color: var(--accent); }
-.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: clamp(64px, 8vw, 120px); font-size: 13px; color: rgba(255,255,255,.75); }
+
+/* ---------- floating buttons ---------- */
+.fab { position: fixed; right: clamp(12px, 2vw, 28px); bottom: clamp(12px, 2vw, 28px); z-index: 30; display: flex; flex-direction: column; gap: 8px; }
+.fab button { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 18px; font-weight: 700; box-shadow: 0 4px 14px rgba(0,0,0,.18); transition: background .2s, transform .2s; }
+.fab button:hover { background: var(--accent); transform: translateY(-2px); }
 
 /* ---------- project detail ---------- */
 .p-hero { padding: clamp(40px, 6vw, 88px) 0 clamp(36px, 5vw, 64px); }
