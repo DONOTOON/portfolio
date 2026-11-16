@@ -48,7 +48,6 @@
 
   /* ---------------- HOME ---------------- */
   function renderHome() {
-    if (track.role) $("#role").textContent = track.role; else $("#role").remove();
     $("#tagline").innerHTML = PROFILE.tagline.replace("하나의 경험", "<em>하나의 경험</em>");
     if (track.statement) { $("#statement").innerHTML = track.statement; $("#statement").hidden = false; }
     $("#langs").innerHTML = PROFILE.languages

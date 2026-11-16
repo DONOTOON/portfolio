@@ -45,7 +45,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ---------- hero ---------- */
 .hero { padding: clamp(56px, 10vw, 140px) 0 clamp(48px, 7vw, 96px); border-bottom: 1px solid var(--line); }
 .hero-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; margin-bottom: clamp(28px, 4vw, 48px); }
-.hero-meta .role { font-weight: 600; font-size: 14px; }
+
 .hero h1 {
   font-size: clamp(40px, 8.4vw, 132px);
   line-height: 1.04;
