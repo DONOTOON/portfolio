@@ -22,31 +22,37 @@ const PROFILE = {
 };
 
 /* 지원 분야별 링크: index.html?track=chat 처럼 사용
-   filter = 그 링크로 들어왔을 때 처음 선택되어 있는 카테고리 */
+   filter = 그 링크로 들어왔을 때 처음 선택되어 있는 카테고리
+   featured = 맨 위 Selected Work에 크게 보일 대표 프로젝트 3개 */
 const TRACKS = {
   all: {
     label: "전체",
     filter: "all",
+    featured: ["wol", "dono", "two"],
     statement: null,
   },
   chat: {
     label: "캐릭터챗",
     filter: "chat",
+    featured: ["wol", "alien", "crack"],
     statement: "사용자의 시선으로 만들고<br>창작자의 시선으로 검증합니다.",
   },
   webtoon: {
     label: "웹툰",
     filter: "webtoon",
+    featured: ["gosu", "anime", "dono"],
     statement: "창작의 언어로 이야기를 만들고,<br>시장의 언어로 가능성을 읽습니다.",
   },
   design: {
     label: "디자인",
     filter: "design",
+    featured: ["two", "allim", "crack"],
     statement: "데이터로 마음을 읽고,<br>디자인으로 해답을 제시합니다.",
   },
 };
 
-/* cats: 여러 개 가능 (첫 번째가 대표). start: 정렬용 시작 시점 — 최신순으로 자동 정렬 */
+/* key: Selected Work 카드에 보일 핵심 성과 (없으면 표시 안 함)
+   cats: 여러 개 가능 (첫 번째가 대표). start: 정렬용 시작 시점 — 최신순으로 자동 정렬 */
 const CATEGORIES = {
   chat: "캐릭터챗 · AI",
   webtoon: "웹툰 · IP",
@@ -139,6 +145,7 @@ const PROJECTS = {
     period: "2015.07 – 2015.12",
     platform: "다음웹툰 정식 연재",
     metrics: [["909만", "누적 조회수"], ["TOP 5", "매주 요일 순위"]],
+    key: ["909만", "누적 조회수"],
     links: [],
     slides: 1,
   },
@@ -155,6 +162,7 @@ const PROJECTS = {
     period: "2026",
     platform: "SeSAC 팀 프로젝트",
     metrics: [["47화 → 13EP", "원작 재구성"], ["3.5K", "레딧 게시글 조회"]],
+    key: ["47화 → 13EP", "원작 재구성"],
     links: [],
     slides: 2,
   },
@@ -219,6 +227,7 @@ const PROJECTS = {
     period: "2022.01 – 2024.02",
     platform: "Instagram",
     metrics: [["230만", "단일 릴스 재생"], ["7만", "좋아요"], ["2건", "브랜드 협업"]],
+    key: ["230만", "단일 릴스 재생"],
     links: [],
     slides: 1,
   },
@@ -235,6 +244,7 @@ const PROJECTS = {
     period: "2024.12 – 2025.10",
     platform: "Instagram · YouTube",
     metrics: [["550건+", "5개월 유료 판매"], ["11%", "구매 전환율"], ["123만", "YouTube 누적 노출"], ["5.1%", "평균 CTR"]],
+    key: ["550건+", "광고비 0원, 5개월 유료 판매"],
     links: [],
     slides: 2,
   },
@@ -283,6 +293,7 @@ const PROJECTS = {
     period: "2024",
     platform: "㈜크레버스",
     metrics: [["294건", "VoC 분석"], ["80.7%", "불편 원인이 정책"], ["263개", "검토 화면"]],
+    key: ["294건", "VoC 분석"],
     links: [],
     slides: 1,
   },

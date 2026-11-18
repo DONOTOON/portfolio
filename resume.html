@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>김재석 이력서</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <style>
+    :root { --ink: #111114; --muted: #6b6b70; --line: #dcdcd6; --accent: #1f3fe0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @page { size: A4; margin: 14mm 15mm; }
+    html { background: #e9e9e4; }
+    body { font-family: "Pretendard Variable", Pretendard, "Malgun Gothic", sans-serif; color: var(--ink); font-size: 10pt; line-height: 1.55; word-break: keep-all; }
+    .page { max-width: 210mm; margin: 24px auto; background: #fff; padding: 14mm 15mm; }
+    @media print { html { background: #fff; } .page { margin: 0; padding: 0; max-width: none; } .no-print { display: none; } }
+    a { color: inherit; text-decoration: none; }
+    header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10pt; border-bottom: 2px solid var(--ink); }
+    h1 { font-size: 24pt; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+    h1 small { display: block; font-size: 8pt; letter-spacing: .18em; color: var(--muted); font-weight: 600; margin-bottom: 6pt; }
+    .contact { text-align: right; font-size: 9pt; color: #333; }
+    .contact b { color: var(--accent); font-weight: 700; }
+    .tag { margin-top: 12pt; font-size: 14pt; font-weight: 800; letter-spacing: -.02em; }
+    .tag em { font-style: normal; color: var(--accent); }
+    .intro { margin-top: 6pt; color: #333; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 12pt; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .kpis div { padding: 8pt 8pt 8pt 0; }
+    .kpis div + div { padding-left: 8pt; border-left: 1px solid var(--line); }
+    .kpis b { display: block; font-size: 15pt; font-weight: 800; color: var(--accent); letter-spacing: -.02em; line-height: 1.2; }
+    .kpis span { font-size: 8pt; color: var(--muted); }
+    h2 { margin-top: 16pt; font-size: 8.5pt; letter-spacing: .16em; color: var(--accent); font-weight: 700; padding-bottom: 4pt; border-bottom: 1px solid var(--ink); }
+    .row { display: grid; grid-template-columns: 34mm 1fr; gap: 0 10pt; padding: 7pt 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+    .when { font-size: 8.5pt; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .what { font-weight: 700; font-size: 10.5pt; }
+    .what small { font-weight: 500; color: var(--muted); font-size: 8.5pt; margin-left: 6pt; }
+    ul { list-style: none; margin-top: 3pt; }
+    li { padding-left: 9pt; position: relative; color: #2b2b2f; font-size: 9pt; }
+    li::before { content: ""; position: absolute; left: 0; top: .75em; width: 4pt; height: 1px; background: var(--ink); }
+    .etc .what { font-size: 9.5pt; }
+    .etc-h { margin-top: 8pt; font-size: 7.5pt; letter-spacing: .16em; color: var(--muted); font-weight: 700; }
+    .row p { font-size: 9pt; color: #2b2b2f; }
+    .bar { position: sticky; top: 0; text-align: center; padding: 10px; background: #111114; color: #fff; font-size: 14px; }
+    .bar a { text-decoration: underline; margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <div class="bar no-print">이력서 미리보기 · <a href="assets/KimJaeseok_Resume.pdf" download="김재석_이력서.pdf">PDF 다운로드</a> <a href="index.html">포트폴리오로</a></div>
+  <div class="page" id="r"></div>
+  <script src="js/data.js"></script>
+  <script>
+    const SITE = "donotoon.github.io/portfolio";
+    const P = PROFILE;
+    const pick = ["alien", "wol", "anime", "photo", "dono", "jack", "gosu"];
+    const row = (w, what, body) => `<div class="row"><p class="when">${w}</p><div>${what}${body || ""}</div></div>`;
+    document.getElementById("r").innerHTML = `
+      <header>
+        <h1><small>${P.nameEn}</small>${P.name}</h1>
+        <div class="contact">${P.email}<br><b>${SITE}</b></div>
+      </header>
+      <p class="tag">${P.tagline.replace("<br>", " ").replace("하나의 경험", "<em>하나의 경험</em>")}</p>
+      <p class="intro">${P.intro.join(" ")}</p>
+      <div class="kpis">${HIGHLIGHTS.map((h) => `<div><b>${h.n}</b><span>${h.l}</span></div>`).join("")}</div>
+
+      <h2>CAREER</h2>
+      ${CAREER.map((c) => row(`${c.period}<br>${c.dur}`, `<p class="what">${c.co}<small>${c.role}</small></p>`, `<ul>${c.items.map((t) => `<li>${t}</li>`).join("")}</ul>`)).join("")}
+      <p class="etc-h">ETC</p>
+      ${CAREER_ETC.map(([w, c, d]) => `<div class="row etc"><p class="when">${w}</p><div><p class="what">${c}<small>${d}</small></p></div></div>`).join("")}
+
+      <h2>PROJECTS</h2>
+      ${pick.filter((id) => PROJECTS[id]).map((id) => {
+        const p = PROJECTS[id];
+        const hl = p.headline.replace(/\[\[|\]\]/g, "");
+        const m = p.key && !hl.includes(p.key[0]) ? `${p.key[1]} ${p.key[0]}` : "";
+        return row(p.period, `<p class="what">${p.title}<small>${p.platform} · ${p.label}</small></p>`,
+          `<ul><li>${hl}</li>${m ? `<li>${m}</li>` : ""}</ul>`);
+      }).join("")}
+
+      <h2>EDUCATION</h2>
+      ${EDUCATION.map(([a, b]) => row(b, `<p class="what">${a}</p>`)).join("")}
+      ${COURSES.map(([a, b, c]) => row(b.split(" · ")[1], `<p class="what">${a}<small>${b.split(" · ")[0]}</small></p>`, `<p>${c}</p>`)).join("")}
+
+      <h2>SKILLS</h2>
+      ${SKILLS.map(([a, b]) => row(a, `<p>${b}</p>`)).join("")}
+      ${LANG.map(([a, b]) => row(a, `<p>${b}</p>`)).join("")}
+    `;
+  </script>
+</body>
+</html>

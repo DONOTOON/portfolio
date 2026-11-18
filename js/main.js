@@ -57,6 +57,18 @@
     $("#highlights").innerHTML = HIGHLIGHTS
       .map((h) => `<a href="${h.href || withTrack("project.html?id=" + h.id)}"><p class="num">${h.n}</p><p class="lbl">${h.l}</p></a>`).join("");
 
+    $("#featured").innerHTML = (track.featured || []).filter((id) => PROJECTS[id]).map((id, i) => {
+      const p = PROJECTS[id];
+      const m = p.key;
+      return `<a class="feat reveal" href="${withTrack("project.html?id=" + id)}">
+        <div class="thumb"><img src="assets/covers/${id}.jpg" alt="${p.title}" loading="lazy"></div>
+        <p class="eyebrow">${pad(i + 1)} — ${catNames(p)}</p>
+        <h3 class="ttl">${p.title}</h3>
+        <p class="hl">${accent(p.headline)}</p>
+        ${m ? `<p class="mt"><b>${m[0]}</b> ${m[1]}</p>` : ""}
+      </a>`;
+    }).join("");
+
     const cats = ["all", ...Object.keys(CATEGORIES)];
     $("#filters").innerHTML = cats
       .map((c) => `<button class="chip" data-cat="${c}">${c === "all" ? "전체" : CATEGORIES[c]}</button>`).join("");
