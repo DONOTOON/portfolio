@@ -21,6 +21,14 @@
     a.setAttribute("href", withTrack(a.getAttribute("href") === "#" ? "index.html" : a.getAttribute("href")));
   });
 
+  // 분야별 이력서 연결 (웹툰 링크 → 캐릭터 IP 기획 이력서, 나머지 → 캐릭터챗 PD 이력서)
+  if (typeof RESUME_VERSIONS !== "undefined") {
+    const rv = RESUME_BY_TRACK[trackKey] || "chat";
+    const R = RESUME_VERSIONS[rv];
+    document.querySelectorAll('[data-cv="pdf"]').forEach((a) => { a.href = R.file; a.setAttribute("download", R.download); });
+    document.querySelectorAll('[data-cv="page"]').forEach((a) => { a.href = "resume.html?v=" + rv; });
+  }
+
   // contact
   const mail = $("#mail");
   if (mail) {
